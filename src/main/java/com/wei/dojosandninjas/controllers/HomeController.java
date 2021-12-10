@@ -36,8 +36,12 @@ public class HomeController {
 	@GetMapping("/ninjas")
 	public String allNinjas(Model model) {
 		List<Ninja> ninjas = ninjaService.displayNinjas();
-		
 		model.addAttribute("ninjas", ninjas);
+		
+		
+		List<Dojo> dojos = dojoService.displayDojos();
+		model.addAttribute("dojos", dojos);
+		
 		return "ninjas/show.jsp";
 	}
 // --------- Ninja --------
@@ -64,6 +68,9 @@ public class HomeController {
 			Model model
 			) {
 		if (result.hasErrors()) {
+			// remeber to re render the page element
+			// only need to like selection
+			model.addAttribute("dojos", dojoService.displayDojos());
 			return "/ninjas/new.jsp";
 		} else {
 			ninjaService.createNinja(ninja);
@@ -96,7 +103,6 @@ public class HomeController {
 			Model model
 			) {
 		if (result.hasErrors()) {
-			model.addAttribute("dojos", dojoService.displayDojos());
 			return "/dojos/new.jsp";
 		} else {
 			dojoService.createDojo(dojo);
