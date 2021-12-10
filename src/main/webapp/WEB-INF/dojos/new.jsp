@@ -17,72 +17,22 @@
 	<!-- Bootstrap JS or jQuery-->
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-	<title>Starting page</title>
+	<title>Dojos and Ninjas</title>
 </head>
 <body>
 	
 	<div class="container">
-		<!-- SHOW DATA WITH EDIT ROUTE / DELETE FORM-->
-				<table class="table">
-			<thead>
-				<tr>
-					<th>title head</th>
-					<th>title head</th>
-					<th>title head</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="item_name" items="${ items }">
-					<tr>
-						<td>
-							<a href="/languages/${ item_name.memberAttr }">
-							<c:outvalue="${ item_name.memberAttr }" />
-							</a>
-						</td>
-						<td><c:out value="${ item_name.memberAttr }" /></td>
-						<td>
-							<a class="btn" href="/items/${ item_name.id }/edit">Edit</a>
-							<form action="/items/${ item_name.id }" method="post">
-								<input type="hidden" name="_method" value="delete">
-								<input class="btn"type="submit" value="Delete">
-							</form>
-						</td>
-							
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		
-		
+		<h1>New Dojo</h1>
+		<a href="/">Home</a>
 		<!-- ADD NEW CLASS FORM -->
-		<form:form action="REQUEST_ROUTE" method="post" modelAttribute="MODELATTRIBUTE_NAME">
+		<form:form class="form" action="/dojos/new" method="post" modelAttribute="dojo">
     		<p>
-       			<form:label path="member_attribute_name">Member_attribute_name</form:label>
-      			<form:errors path="member_attribute_name"/>
-     			<form:input path="member_attribute_name"/>
+       			<form:label path="name">Name: </form:label>
+     			<form:input path="name"/>
+      			<form:errors path="name"/>
     		</p>
 
-    		<input type="submit" value="Submit"/>
-		</form:form>
-		
-		
-		<!-- EDIT CLASS FORM -->
-		<form:form action="REQUEST_ROUTE/${class.id}" method="post" modelAttribute="MODELATTRIBUTE_NAME">
-			<input type="hidden" name="_method" value="put">
-    		<p>
-       			<form:label path="member_attribute_name">Member_attribute_name</form:label>
-      			<form:errors path="member_attribute_name"/>
-     			<form:input path="member_attribute_name"/>
-    		</p>
-
-    		<input type="submit" value="Edit"/>
-		</form:form>
-
-
-		<!-- DELETE FORM -->
-		<form:form action="REQUEST_ROUTE/${class.id}" method="post">
-		    <input type="hidden" name="_method" value="delete">
-    		<input type="submit" value="Delete"/>
+    		<input type="submit" value="create"/>
 		</form:form>
 
 	</div>

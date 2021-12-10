@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.wei.dojosandninjas.models.Dojo;
 import com.wei.dojosandninjas.models.Ninja;
@@ -28,38 +29,78 @@ public class HomeController {
 	// test here and see if we link everything up
 	@GetMapping("/")
 	public String index() {
-		return "test.jsp";
+		return "redirect:/ninjas";
 	}
 	
 	// NINJA READ ALL
 	@GetMapping("/ninjas")
 	public String allNinjas(Model model) {
-		List<Ninja> allNinjas = ninjaService.displayNinjas();
+		List<Ninja> ninjas = ninjaService.displayNinjas();
 		
-		model.addAttribute(allNinjas);
+		model.addAttribute("ninjas", ninjas);
 		return "ninjas/show.jsp";
+	}
+// --------- Ninja --------
+	// NINJA CREATE
+	// 1 - GET request to render create ninja new page
+	@GetMapping("/ninjas/new")
+	public String createNinjaDisplay(
+			@ModelAttribute("ninja") Ninja ninja,
+			Model model
+			) {
+		// call ninja's info
+		model.addAttribute("ninjas", ninjaService.displayNinjas());
+		// call dojo's info
+		model.addAttribute("dojos", dojoService.displayDojos());
+		return "/ninjas/new.jsp";
+	}
+	// NINJA CREATE
+	// 2 - POST request to sent create service to ninjas table
+	@PostMapping("/ninjas/new")
+	public String createNinja(
+			@Valid
+			@ModelAttribute("ninja") Ninja ninja,
+			BindingResult result,
+			Model model
+			) {
+		if (result.hasErrors()) {
+			return "/ninjas/new.jsp";
+		} else {
+			ninjaService.createNinja(ninja);
+			return "redirect:/ninjas";
+		}
+	}
+	
+	
+// --------- DOJO ---------
+	// DOJO CREATE
+	// 1 - GET request to render create dojo new page
+	@GetMapping("/dojos/new")
+	public String createDojoDisplay(
+			@ModelAttribute("dojo") Dojo dojo,
+			Model model
+			) {
+			model.addAttribute("dojos", dojoService.displayDojos());
+			
+			return "/dojos/new.jsp";
+		
 	}
 	
 	// DOJO CREATE
-	// 1 - GET request to render create page
-	@GetMapping("/dojos/new")
+	// 2 - POST request to sent create service to dojos table
+	@PostMapping("/dojos/new")
 	public String createDojo(
 			@Valid
 			@ModelAttribute("dojo") Dojo dojo,
-			BindingResult result
-//			Model model
+			BindingResult result,
+			Model model
 			) {
 		if (result.hasErrors()) {
-			
-//			model.addAttribute("dojos", dojoService.displayDojos());
-			return "/dojos/new";
+			model.addAttribute("dojos", dojoService.displayDojos());
+			return "/dojos/new.jsp";
 		} else {
-
 			dojoService.createDojo(dojo);
-			return "redirect:/dojos";
+			return "redirect:/ninjas";
 		}
-		
 	}
-	
-	// 2 - POST request to sent create service to SQL
 }

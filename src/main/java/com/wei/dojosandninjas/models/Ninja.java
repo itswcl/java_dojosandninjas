@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -110,10 +112,12 @@ public class Ninja {
 	}
 	
 	// follow by createdAt and updatedAt
+	@PrePersist
 	protected void onCreate() {
 		this.createdAt = new Date();
 	}
 	
+	@PreUpdate
 	protected void onUpdate() {
 		this.updatedAt = new Date();
 	}
