@@ -32,19 +32,24 @@ public class HomeController {
 		return "redirect:/ninjas";
 	}
 	
+
+// ------------------ Ninja ----------------------------------- Ninja -----------------
+	
+	
 	// NINJA READ ALL
 	@GetMapping("/ninjas")
 	public String allNinjas(Model model) {
 		List<Ninja> ninjas = ninjaService.displayNinjas();
 		model.addAttribute("ninjas", ninjas);
 		
-		
+		// this brings out all dojos to front page in order to use
 		List<Dojo> dojos = dojoService.displayDojos();
 		model.addAttribute("dojos", dojos);
 		
 		return "ninjas/show.jsp";
 	}
-// --------- Ninja --------
+	
+	
 	// NINJA CREATE
 	// 1 - GET request to render create ninja new page
 	@GetMapping("/ninjas/new")
@@ -79,7 +84,7 @@ public class HomeController {
 	}
 	
 	
-// --------- DOJO ---------
+// ------------------ DOJO ------------------------------------ DOJO ------------------
 	// DOJO CREATE
 	// 1 - GET request to render create dojo new page
 	@GetMapping("/dojos/new")
@@ -90,9 +95,7 @@ public class HomeController {
 			model.addAttribute("dojos", dojoService.displayDojos());
 			
 			return "/dojos/new.jsp";
-		
 	}
-	
 	// DOJO CREATE
 	// 2 - POST request to sent create service to dojos table
 	@PostMapping("/dojos/new")
